@@ -51,10 +51,10 @@ def property_export(row, table, site_prop_list):
         if prop[0] in table_prop_list:
             sheet.cell(row=row, column=table_prop_list.index(prop[0]) + 1).value = prop[1]
 
-    img = Image(fr'C:\Users\User\PycharmProjects\Freelans_1\фото\{site_prop_list[0][1]}.jpg')
-    cell = get_cell_coordinate(row=row, column=table_prop_list.index('Фото'))
-    sheet.add_image(img, cell)
-    sheet.row_dimensions[row].height = 135
+    # img = Image(fr'C:\Users\User\PycharmProjects\Freelans_1\фото\{site_prop_list[0][1]}.jpg')
+    # cell = get_cell_coordinate(row=row, column=table_prop_list.index('Фото'))
+    # sheet.add_image(img, cell)
+    # sheet.row_dimensions[row].height = 135
 
     workbook.save(table)
     return
