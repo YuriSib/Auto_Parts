@@ -17,13 +17,13 @@ def settings(url_):
     return soup
 
 
-def property_scrapper(url_):
+def property_scrapper(url_, table):
     soup = settings(url_)
 
     html_property_ = soup.find_all('span', {'class': 'filter_title'})
     property_ = ['Наименование'] + [i.get_text(strip=True) for i in html_property_ if 'Модели' not in i] + ['Фото']
 
-    create_column('Каталог.xlsx', property_)
+    create_column(table, property_)
 
     return property_
 
@@ -41,7 +41,7 @@ def photo_saver(url_, name):
 
 def link_scrapper(url_):
     product_list = []
-    nums = ['100'] #, '200', '300', '400', '500', '600', '700', '800', '900', '1000']
+    nums = ['100', '200', '300', '400', '500', '600', '700', '800', '900', '1000']
 
     session = HTMLSession()
 
@@ -85,7 +85,7 @@ def product_scrapper(url_, name, brand, photo):
 
 
 def main(table, url_):
-    property_scrapper(url_)
+    property_scrapper(url_, table)
     link_list = link_scrapper(url_)
 
     count = 2
@@ -103,7 +103,43 @@ def main(table, url_):
 
 
 if __name__ == "__main__":
-    categories_url = 'https://all-world-cars.com/oils_catalog?goods_group=oils&limit=100&start=00'
+    list_catalog = [
+        ('Моторное масло', 'https://all-world-cars.com/oils_catalog'),
+        ('Тормозные жидкости', 'https://all-world-cars.com/brake_fluids_catalog'),
+        ('Присадки1', 'https://all-world-cars.com/oil_additives_catalog'),
+        ('Присадки2', 'https://all-world-cars.com/fuel_additives_catalog'),
+        ('Присадки3', 'https://all-world-cars.com/cooling_system_additives_catalog'),
+        ('Антифриз', 'https://all-world-cars.com/coolant_catalog?goods_group=coolant&action=search&viewMode=tile&prope'
+                      'rty%5Bcoolant_type%5D%5B%5D=antifreeze&property%5Bliquid_volume%5D%5Bfrom%5D=&property%5Bliquid_'
+                      'volume%5D%5Bto%5D=&property%5Bfrost_temp%5D%5Bfrom%5D=&property%5Bfrost_temp%5D%5Bto%5D=&proper'
+                      'ty%5Bboil_temp%5D%5Bfrom%5D=&property%5Bboil_temp%5D%5Bto%5D='),
+        ('Смазки', 'https://all-world-cars.com/lubricants_catalog'),
+        ('Провода пусковые', 'https://all-world-cars.com/jumper_cables_catalog'),
+        ('Ароматизаторы', 'https://all-world-cars.com/car_freshners_catalog'),
+        ('Инструменты1', 'https://all-world-cars.com/tool_sets_catalog'),
+        ('Инструменты2', 'https://all-world-cars.com/sockets_catalog'),
+        ('Инструменты3', 'https://all-world-cars.com/clamps_catalog'),
+        ('Инструменты4', 'https://all-world-cars.com/lug_wrenches_catalog'),
+        ('Аккумуляторы', 'https://all-world-cars.com/batteries_catalog'),
+        ('Шины', 'https://all-world-cars.com/tires_catalog'),
+        ('Диски', 'https://all-world-cars.com/disks_catalog'),
+        ('Автохимия', 'https://all-world-cars.com/ext_cleaners_catalog'),
+        ('Щетки стеклоочистителя', 'https://all-world-cars.com/wipers_catalog'),
+        ('Домкрат', 'https://all-world-cars.com/jacks_catalog'),
+        ('Герметики', 'https://all-world-cars.com/sealants_catalog'),
+        ('Пусковое устройство', 'https://all-world-cars.com/battery_boosters_catalog'),
+        ('Ремни', 'https://all-world-cars.com/poly_v_belts_catalog'),
+        ('Очистка льда и снега', 'https://all-world-cars.com/brushes_scrapers_catalog'),
+        ('Троса', 'https://all-world-cars.com/towing_ropes_catalog'),
+        ('Аптечки', 'https://all-world-cars.com/first_aid_kit_catalog'),
+        ('Жилеты', 'https://all-world-cars.com/emergency_waistcoats_catalog'),
+        ('Стеклоомывайка', 'https://all-world-cars.com/washer_liquids_catalog')
+    ]
+    for category in list_catalog:
+        # categories_url = 'https://all-world-cars.com/oils_catalog?goods_group=oils&limit=100&start=00'
+        categories_url = category[1] + '?limit=100&start=00'
+        table = f'{category[0]} + .xlsx'
+        main(table, categories_url)
     #
     # link_scrapper(url)
     url = 'https://all-world-cars.com/parts/LUKOIL/3148675?source=oils_catalog'
