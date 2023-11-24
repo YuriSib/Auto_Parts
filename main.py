@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from requests_html import HTMLSession
 import urllib.request
 
-from excel_master import create_column, import_xl, property_export
+from excel_master import create_column, import_xl, property_export, find_row
 from catalog import catalog_list
 
 
@@ -43,7 +43,8 @@ def photo_saver(url_, name):
 
 def link_scrapper(url_):
     product_list = []
-    nums = ['100']#, '200', '300', '400', '500', '600', '700', '800', '900', '1000']
+    nums = ['00', '100', '200', '300', '400', '500', '600', '700', '800', '900', '1000', '1100']
+    # nums = ['700', '800', '900', '1000']
 
     session = HTMLSession()
 
@@ -61,6 +62,10 @@ def link_scrapper(url_):
         name_n_brand_n_link_n_photo_n_article_list = []
         for i in html_product:
             name = i.find('p').get_text(strip=True)
+            if '"' in name:
+                name = name.replace('"', '')
+            if '*' in name:
+                name = name.replace('*', 'x')
             brand = i.find('h3').get_text(strip=True)
             link = 'https://all-world-cars.com' + i.find('p').a['href']
             article = (link.split('/'))[-1].split('?')[0]
@@ -72,11 +77,12 @@ def link_scrapper(url_):
 
             name_n_brand_n_link_n_photo_n_article_list.append((name, brand, link, photo, article))
 
-        if name_n_brand_n_link_n_photo_n_article_list[0] not in product_list:
-            product_list.extend(name_n_brand_n_link_n_photo_n_article_list)
-        else:
+        if name_n_brand_n_link_n_photo_n_article_list:
+            if name_n_brand_n_link_n_photo_n_article_list[0] not in product_list:
+                product_list.extend(name_n_brand_n_link_n_photo_n_article_list)
+            else:
 
-            break
+                break
     return product_list
 
 
@@ -96,11 +102,16 @@ def product_scrapper(url_, name, brand, article, photo=None):
     return property_list
 
 
-def main(table, url_):
-    property_scrapper(url_, table)
+def main(table_, url_):
+    property_scrapper(url_, table_)
     link_list = link_scrapper(url_)
 
-    count = 2
+    count = find_row(table_, str(link_list[0][0]))
+    if count:
+        count += 2
+    else:
+        count = 2
+
     for link in link_list:
         property_list_ = product_scrapper(link[2], link[0], link[1], link[4], link[3])
 
@@ -113,9 +124,9 @@ def main(table, url_):
         else:
             for property_ in property_list_:
                 if property_[0] == 'Фото':
-                    property_[1] = 'Фото отсутствует на сайте!'
+                    property_ = (property_[0], 'Фото отсутствует на сайте!')
 
-        property_export(row=count, table=table, site_prop_list=property_list_)
+        property_export(row=count, table=table_, site_prop_list=property_list_)
         count += 1
         print(count)
 

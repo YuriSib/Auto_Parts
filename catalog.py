@@ -1,16 +1,16 @@
 def catalog_list():
     list_catalog = [
-            ('Моторное масло', 'https://all-world-cars.com/oils_catalog'),
-            ('Тормозные жидкости', 'https://all-world-cars.com/brake_fluids_catalog'),
-            ('Присадки1', 'https://all-world-cars.com/oil_additives_catalog'),
-            ('Присадки2', 'https://all-world-cars.com/fuel_additives_catalog'),
-            ('Присадки3', 'https://all-world-cars.com/cooling_system_additives_catalog'),
-            ('Антифриз', 'https://all-world-cars.com/coolant_catalog?goods_group=coolant&action=search&viewMode=tile'
-                         '&property%5Bcoolant_type%5D%5B%5D=antifreeze&property%5Bliquid_volume%5D%5Bfrom%5D=&property'
-                         '%5Bliquid_volume%5D%5Bto%5D=&property%5Bfrost_temp%5D%5Bfrom%5D=&property%5Bfrost_temp%5D%5B'
-                         'to%5D=&property%5Bboil_temp%5D%5Bfrom%5D=&property%5Bboil_temp%5D%5Bto%5D='),
-            ('Смазки', 'https://all-world-cars.com/lubricants_catalog'),
-            ('Провода пусковые', 'https://all-world-cars.com/jumper_cables_catalog'),
+            # ('Моторное масло', 'https://all-world-cars.com/oils_catalog'),
+            # ('Тормозные жидкости', 'https://all-world-cars.com/brake_fluids_catalog'),
+            # ('Присадки1', 'https://all-world-cars.com/oil_additives_catalog'),
+            # ('Присадки2', 'https://all-world-cars.com/fuel_additives_catalog'),
+            # ('Присадки3', 'https://all-world-cars.com/cooling_system_additives_catalog'),
+            # ('Антифриз', 'https://all-world-cars.com/coolant_catalog?goods_group=coolant&action=search&viewMode=tile'
+            #              '&property%5Bcoolant_type%5D%5B%5D=antifreeze&property%5Bliquid_volume%5D%5Bfrom%5D=&property'
+            #              '%5Bliquid_volume%5D%5Bto%5D=&property%5Bfrost_temp%5D%5Bfrom%5D=&property%5Bfrost_temp%5D%5B'
+            #              'to%5D=&property%5Bboil_temp%5D%5Bfrom%5D='),
+            # ('Смазки', 'https://all-world-cars.com/lubricants_catalog'),
+            # ('Провода пусковые', 'https://all-world-cars.com/jumper_cables_catalog'),
             ('Ароматизаторы', 'https://all-world-cars.com/car_freshners_catalog'),
             ('Инструменты1', 'https://all-world-cars.com/tool_sets_catalog'),
             ('Инструменты2', 'https://all-world-cars.com/sockets_catalog'),

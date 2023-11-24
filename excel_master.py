@@ -1,7 +1,6 @@
 import openpyxl
-from openpyxl.drawing.image import Image
+import pandas as pd
 import os
-import sys
 
 
 def get_cell_coordinate(row, column):
@@ -33,10 +32,9 @@ def import_xl(table):
 
     property_ = []
 
-    for row in sheet.rows:
-        for cell in row:
-            if cell.value is not None:
-                property_.append(cell.value)
+    for cell in sheet[1]:
+        if cell.value is not None:
+            property_.append(cell.value)
     workbook.save(table)
 
     return property_
@@ -60,6 +58,16 @@ def property_export(row, table, site_prop_list):
     return
 
 
+def find_row(table, name):
+    df = pd.read_excel(table)
+    row_index = df.index[df['Наименование'] == name].tolist()
+
+    if row_index:
+        return row_index[0]
+
+
 if __name__ == "__main__":
-    property_name = import_xl('Каталог.xlsx')
-    print(property_name)
+    row = find_row('Ароматизаторы.xlsx', 'Ароматизатор меловой SPIRIT REFILL - SAMURAI MAN')
+    print(row)
+    # 'L215444TE1'
+
