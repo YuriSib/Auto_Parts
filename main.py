@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from requests_html import HTMLSession
 import urllib.request
 import pickle
+import time
 
 from excel_master import create_column, import_xl, property_export, find_row
 from catalog import catalog_list
@@ -37,9 +38,12 @@ def photo_saver(url_, name):
     except urllib.error.URLError as e:
         print("Ошибка при скачивании фото:", e)
     else:
-        with open(f'фото/{name}.jpg', 'wb') as f:
-            f.write(urllib.request.urlopen(url_).read())
-            print("Фото успешно скачано!")
+        try:
+            with open(f'фото/{name}.jpg', 'wb') as f:
+                f.write(urllib.request.urlopen(url_).read())
+                print("Фото успешно скачано!")
+        except Exception:
+            print("Ошибка при скачивании фото:")
 
 
 def link_scrapper(url_):
@@ -124,9 +128,22 @@ def main(data_list):
     for product_list in data_list:
         table_ = product_list[0]
         n_b_l_p_a_list = product_list[1]
+        print(table_)
 
         for n_b_l_p_a in n_b_l_p_a_list:
             name, brand, url_, photo, article = n_b_l_p_a[0], n_b_l_p_a[1], n_b_l_p_a[2], n_b_l_p_a[3], n_b_l_p_a[4]
+            if ':' in name:
+                name = name.replace(':', '')
+            if ';' in name:
+                name = name.replace(';', '')
+            if '?' in name:
+                name = name.replace('?', '')
+            if '/' in name:
+                name = name.replace('/', '')
+            if '<' in name:
+                name = name.replace('<', '')
+            if '>' in name:
+                name = name.replace('>', '')
 
             property_list_ = product_scrapper(url_, name, brand, article, photo)
 
@@ -144,6 +161,8 @@ def main(data_list):
             property_export(row=count, table=table_, site_prop_list=property_list_)
             count += 1
             print(count)
+            time.sleep(4)
+        count = 2
 
 
 if __name__ == "__main__":

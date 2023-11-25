@@ -13,9 +13,9 @@ def catalog_list():
             # ('Провода пусковые', 'https://all-world-cars.com/jumper_cables_catalog'),
             # ('Ароматизаторы', 'https://all-world-cars.com/car_freshners_catalog'),
 
-            ('Инструменты1', 'https://all-world-cars.com/tool_sets_catalog'),
-            ('Инструменты2', 'https://all-world-cars.com/sockets_catalog'),
-            ('Инструменты3', 'https://all-world-cars.com/clamps_catalog'),
+            # ('Инструменты1', 'https://all-world-cars.com/tool_sets_catalog'),
+            # ('Инструменты2', 'https://all-world-cars.com/sockets_catalog'),
+            # ('Инструменты3', 'https://all-world-cars.com/clamps_catalog'),
             ('Инструменты4', 'https://all-world-cars.com/lug_wrenches_catalog'),
             ('Аккумуляторы', 'https://all-world-cars.com/batteries_catalog'),
             ('Шины', 'https://all-world-cars.com/tires_catalog'),
