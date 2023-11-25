@@ -161,7 +161,7 @@ def main(data_list):
             property_export(row=count, table=table_, site_prop_list=property_list_)
             count += 1
             print(count)
-            time.sleep(4)
+            time.sleep(3)
         count = 2
 
 
