@@ -37,7 +37,7 @@ def photo_saver(url_, name):
     except urllib.error.URLError as e:
         print("Ошибка при скачивании фото:", e)
     else:
-        with open(f'фото\{name}.jpg', 'wb') as f:
+        with open(f'фото/{name}.jpg', 'wb') as f:
             f.write(urllib.request.urlopen(url_).read())
             print("Фото успешно скачано!")
 
