@@ -11,7 +11,8 @@ def catalog_list():
             #              'to%5D=&property%5Bboil_temp%5D%5Bfrom%5D='),
             # ('Смазки', 'https://all-world-cars.com/lubricants_catalog'),
             # ('Провода пусковые', 'https://all-world-cars.com/jumper_cables_catalog'),
-            ('Ароматизаторы', 'https://all-world-cars.com/car_freshners_catalog'),
+            # ('Ароматизаторы', 'https://all-world-cars.com/car_freshners_catalog'),
+
             ('Инструменты1', 'https://all-world-cars.com/tool_sets_catalog'),
             ('Инструменты2', 'https://all-world-cars.com/sockets_catalog'),
             ('Инструменты3', 'https://all-world-cars.com/clamps_catalog'),

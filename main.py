@@ -3,6 +3,7 @@ from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 from requests_html import HTMLSession
 import urllib.request
+import pickle
 
 from excel_master import create_column, import_xl, property_export, find_row
 from catalog import catalog_list
@@ -86,6 +87,22 @@ def link_scrapper(url_):
     return product_list
 
 
+def links_output():
+    links_from_catalog = catalog_list()
+
+    data_list = []
+    for link_ in links_from_catalog:
+        link = link_[1] + '?limit=100&start=00'
+        category_name = link_[0]
+        name_n_brand_n_link_n_photo_n_article_list = link_scrapper(link)
+        data_list.append((category_name, name_n_brand_n_link_n_photo_n_article_list))
+
+    with open('data_list.pickle', 'wb') as file:
+        pickle.dump(data_list, file)
+
+    return data_list
+
+
 def product_scrapper(url_, name, brand, article, photo=None):
     soup = settings(url_)
 
@@ -102,44 +119,41 @@ def product_scrapper(url_, name, brand, article, photo=None):
     return property_list
 
 
-def main(table_, url_):
-    property_scrapper(url_, table_)
-    link_list = link_scrapper(url_)
+def main(data_list):
+    count = 2
+    for product_list in data_list:
+        table_ = product_list[0]
+        n_b_l_p_a_list = product_list[1]
 
-    count = find_row(table_, str(link_list[0][0]))
-    if count:
-        count += 2
-    else:
-        count = 2
+        for n_b_l_p_a in n_b_l_p_a_list:
+            name, brand, url_, photo, article = n_b_l_p_a[0], n_b_l_p_a[1], n_b_l_p_a[2], n_b_l_p_a[3], n_b_l_p_a[4]
 
-    for link in link_list:
-        property_list_ = product_scrapper(link[2], link[0], link[1], link[4], link[3])
+            property_list_ = product_scrapper(url_, name, brand, article, photo)
 
-        if link[3] != 'Не удалось найти фото!':
-            try:
-                photo_saver(link[3], link[0])
-            except FileNotFoundError:
-                print(f'На {count} строке возникла ошибка!')
-                continue
-        else:
-            for property_ in property_list_:
-                if property_[0] == 'Фото':
-                    property_ = (property_[0], 'Фото отсутствует на сайте!')
+            if photo != 'Не удалось найти фото!':
+                try:
+                    photo_saver(photo, name)
+                except FileNotFoundError:
+                    print(f'На {count} строке возникла ошибка!')
+                    continue
+            else:
+                for property_ in property_list_:
+                    if property_[0] == 'Фото':
+                        property_ = (property_[0], 'Фото отсутствует на сайте!')
 
-        property_export(row=count, table=table_, site_prop_list=property_list_)
-        count += 1
-        print(count)
+            property_export(row=count, table=table_, site_prop_list=property_list_)
+            count += 1
+            print(count)
 
 
 if __name__ == "__main__":
-    catalog_list = catalog_list()
-    for category in catalog_list:
-        # categories_url = 'https://all-world-cars.com/oils_catalog?goods_group=oils&limit=100&start=00'
-        categories_url = category[1] + '?limit=100&start=00'
-        table = f'{category[0]}.xlsx'
-        main(table, categories_url)
-    #
-    # link_scrapper(url)
-    # url = 'https://all-world-cars.com/parts/LUKOIL/3148675?source=oils_catalog'
-    # # property_list = product_scrapper(url)
-    # main('Каталог.xlsx', categories_url)
+    # dict_link = links_output()
+    with open('data_list.pickle', 'rb') as file:
+        data_list = pickle.load(file)
+    main(data_list)
+    # catalog_list = catalog_list()
+    # for category in catalog_list:
+    #     # categories_url = 'https://all-world-cars.com/oils_catalog?goods_group=oils&limit=100&start=00'
+    #     categories_url = category[1] + '?limit=100&start=00'
+    #     table = f'{category[0]}.xlsx'
+    #     main(table, categories_url)
