@@ -16,7 +16,7 @@ def catalog_list():
             # ('Инструменты1', 'https://all-world-cars.com/tool_sets_catalog'),
             # ('Инструменты2', 'https://all-world-cars.com/sockets_catalog'),
             # ('Инструменты3', 'https://all-world-cars.com/clamps_catalog'),
-            ('Инструменты4', 'https://all-world-cars.com/lug_wrenches_catalog'),
+            # ('Инструменты4', 'https://all-world-cars.com/lug_wrenches_catalog'),
             ('Аккумуляторы', 'https://all-world-cars.com/batteries_catalog'),
             ('Шины', 'https://all-world-cars.com/tires_catalog'),
             ('Диски', 'https://all-world-cars.com/disks_catalog'),
